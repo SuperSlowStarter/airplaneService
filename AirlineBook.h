@@ -15,6 +15,7 @@ class AirlineBook{
 	void cancel();
 	void view();
 	void view(int s);
+	void modify();
 public:
 	AirlineBook(string name, int nSchedules, string scheduleTime []);
 	~AirlineBook();

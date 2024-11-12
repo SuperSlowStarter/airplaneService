@@ -99,3 +99,7 @@ void AirlineBook::view(){
 void AirlineBook::view(int s){
 	sche[s-1].view(); //배열의 인덱스는 0부터 시작
 }
+
+void AirlineBook::modify() {
+
+};
