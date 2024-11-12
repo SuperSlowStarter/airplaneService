@@ -101,5 +101,5 @@ void AirlineBook::view(int s){
 }
 
 void AirlineBook::modify() {
-
+	cout << "can i merge";
 };
