@@ -40,3 +40,10 @@ bool Schedule::cancel(int no, string name){
 	else
 		return false;
 }
+
+bool Schedule::hasAvailableSeats() {
+	for (int i = 0; i < 8; i++) {
+		if (!seat[i].isBooked()) return true;
+	}
+	return false;
+}

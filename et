@@ -1,0 +1,38 @@
+[33mcommit 2e602f0a6ddee59db286e79492fda9500c16588e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32muserClass[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: SuperSlowStarter <cleangabby@gmail.com>
+Date:   Wed Nov 13 00:24:27 2024 +0900
+
+    from desktop
+
+[33mcommit f14d43709bbd25de7f491aba35c9e144bd50ab38[m
+Merge: fcac33a fcf760f
+Author: SuperSlowStarter <123431245+SuperSlowStarter@users.noreply.github.com>
+Date:   Wed Nov 13 00:06:39 2024 +0900
+
+    Merge pull request #1 from SuperSlowStarter/modify
+    
+    진행시켜
+
+[33mcommit fcf760ff201d8754c78c3941e5d52b48e990c764[m
+Author: SuperSlowStarter <cleangabby@gmail.com>
+Date:   Tue Nov 12 23:57:12 2024 +0900
+
+    can i merge
+
+[33mcommit fcac33a7496f41f5f43e737abe4b8b42c00c3a07[m
+Author: SuperSlowStarter <cleangabby@gmail.com>
+Date:   Tue Nov 12 23:48:29 2024 +0900
+
+    add Modify
+
+[33mcommit 5c48598374b3e8d6dc759533260a83423654eef0[m
+Author: SuperSlowStarter <cleangabby@gmail.com>
+Date:   Tue Nov 12 23:32:03 2024 +0900
+
+    초기 커밋.
+
+[33mcommit 8c4ee5ee9f47ae28d9a735d305398054f8c4d8ae[m
+Author: SuperSlowStarter <cleangabby@gmail.com>
+Date:   Tue Nov 12 23:32:01 2024 +0900
+
+    .gitattributes 및 .gitignore을(를) 추가합니다.

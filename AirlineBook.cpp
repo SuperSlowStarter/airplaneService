@@ -1,106 +1,90 @@
+#include "AirlineBook.h"
+#include "Console.h"
+#include "Schedule.h"
 #include <iostream>
-#include <string>
 using namespace std;
 
-#include "AirlineBook.h"
-#include "Schedule.h"
-#include "Console.h"
-
-// 생성자
-AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]){
-	this->name = name; // 예약 시스템 이름
-	this->nSchedules = nSchedules;
-	sche = new Schedule[nSchedules]; // 3 개의 스케쥴 객체 생성
-
-	// 각 스케쥴에 해당 시간 설정
-	for(int i=0; i<nSchedules; i++)
-		sche[i].setTime(scheduleTime[i]);
+AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]) {
+    this->name = name;
+    this->nSchedules = nSchedules;
+    sche = new Schedule[nSchedules];
+    for (int i = 0; i < nSchedules; i++)
+        sche[i].setTime(scheduleTime[i]);
+    userCount = 0;
 }
 
-// 소멸자
-AirlineBook::~AirlineBook(){
-	if(sche) 
-		delete [] sche;
+AirlineBook::~AirlineBook() {
+    if (sche) delete[] sche;
+    for (int i = 0; i < userCount; i++) delete users[i];
 }
 
-// 예약 시스템을 시작하는 함수
-void AirlineBook::run(){
-	cout << "***** " << name << "에 오신것을 환영합니다" << " *****" << endl;
-	cout << endl;
-
-	while(true){
-		int menu = Console::getMainMenu(4); // 메인 메뉴 입력. 4는 메뉴 개수
-		switch(menu){
-			case 1:
-				book(); // 예약
-				break; 
-			case 2:
-				cancel(); // 예약
-				break; 
-			case 3:
-				view(); // 예약 보기
-				break; 
-			case 4:
-				cout << "예약 시스템을 종료합니다.\n"<<endl;
-				return;
-			default:
-				cout << "잘못입력하였습니다.\n"<<endl;
-		}
-		cout << endl;
-	}
+void AirlineBook::run() {
+    cout << "***** " << name << "에 오신 것을 환영합니다 *****" << endl << endl;
+    while (true) {
+        int menu = Console::getMainMenu(5); // 수정된 메뉴
+        switch (menu) {
+        case 1: book(); break;
+        case 2: cancel(); break;
+        case 3: view(); break;
+        case 4: modify(); break;
+        case 5:
+            cout << "예약 시스템을 종료합니다.\n" << endl;
+            return;
+        default: cout << "잘못된 입력입니다.\n" << endl;
+        }
+        cout << endl;
+    }
 }
 
-// 스케쥴을 예약한다.
-void AirlineBook::book(){
-	int s;
-	string bookName;
-	int seatNo;
+void AirlineBook::book() {
+    string userName;
+    int seatNo, airTime;
 
-	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 스케쥴을 입력 받는다.
-	view(s); // 스케쥴 s의 예약 상황을 출력한다.
-	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
-	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
+    userName = Console::getName(); // 유저 이름 입력
+    view();                        // 예약 상태 보여줌
 
-	 // 해당 스케쥴 예약
-	bool ret = sche[s-1].book(seatNo, bookName);
-	if(!ret)
-		Console::print("좌석 번호가 잘못되었거나 예약된 좌석입니다.\n");
-	else
-		Console::print("예약되었습니다.\n");
+    airTime = Console::getScheduleMenu(nSchedules); // 시간 선택
+    if (!sche[airTime - 1].hasAvailableSeats()) {   // 좌석이 없으면 종료
+        Console::print("해당 시간에 남은 좌석이 없습니다.\n");
+        return;
+    }
+
+    seatNo = Console::getSeatNo();                   // 좌석 번호 선택
+    while (!sche[airTime - 1].book(seatNo, userName)) {
+        Console::print("이미 예약된 좌석입니다. 다른 좌석을 선택하세요.\n");
+        seatNo = Console::getSeatNo();
+    }
+
+    users[userCount++] = new User(userName, airTime, seatNo); // User 인스턴스 생성
+    Console::print("예매가 완료되었습니다.\n");
 }
 
-// 스케쥴을 취소한다.
-void AirlineBook::cancel(){
-	int s;
-	string bookName;
-	int seatNo;
+void AirlineBook::cancel() {
+    string userName = Console::getName();
+    int seatNo = Console::getSeatNo();
 
-	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 스케쥴을 입력 받는다.
-	view(s); // 스케쥴 s의 예약 상황을 출력한다.
-	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
-	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
-
-	// 해당 스케쥴 취소
-	bool ret = sche[s-1].cancel(seatNo, bookName); 
-	if(!ret)
-		Console::print("좌석 번호나 예약자의 이름이 틀려 취소가 실패하였습니다.\n");
-	else
-		Console::print("예약이 취소되었습니다.\n");
-}
-
-// 현재 모든 스케쥴의 예약 상황을 출력한다.
-void AirlineBook::view(){
-	for(int i=0;i<3;i++){
-		sche[i].view();
-	}
-}
-
-// 스케쥴 s의 좌석 예약 상황을 출력한다. s는 1,2,3
-void AirlineBook::view(int s){
-	sche[s-1].view(); //배열의 인덱스는 0부터 시작
+    bool found = false;
+    for (int i = 0; i < userCount; i++) {
+        if (users[i] && users[i]->getUserName() == userName && users[i]->getSeatNumber() == seatNo) {
+            sche[users[i]->getAirTime() - 1].cancel(seatNo, userName);
+            delete users[i];
+            users[i] = nullptr;
+            found = true;
+            Console::print("예약이 취소되었습니다.\n");
+            break;
+        }
+    }
+    if (!found) Console::print("취소할 예약을 찾지 못했습니다.\n");
 }
 
 void AirlineBook::modify() {
-	cout << "can i merge";
-	cout << "hi im from desktop";
-};
+    string userName = Console::getName();
+    for (int i = 0; i < userCount; i++) {
+        if (users[i] && users[i]->getUserName() == userName) {
+            users[i]->modify();
+            return;
+        }
+    }
+    Console::print("수정할 예약을 찾지 못했습니다.\n");
+}
+

@@ -16,6 +16,7 @@ public:
 	bool cancel(int no, string name);
 	void view();
 	void setTime(string time);
+	bool hasAvailableSeats();
 };
 
 #endif
