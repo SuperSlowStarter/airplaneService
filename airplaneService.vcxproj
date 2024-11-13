@@ -132,10 +132,12 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Schedule.cpp" />
     <ClCompile Include="Seat.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirlineBook.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="User.h" />
     <ClInclude Include="Schedule.h" />
     <ClInclude Include="Seat.h" />
   </ItemGroup>
