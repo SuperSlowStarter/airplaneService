@@ -13,4 +13,4 @@ int main(){
 	delete p;
 }
 
-// editted from pc 1
+// editted from pc 2
