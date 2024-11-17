@@ -1,0 +1,7 @@
+머지해서 없어진거 확인
+
+git fetch -p
+
+원격 브랜치 가져오기
+
+git branch -t origin/브랜치이름
