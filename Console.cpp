@@ -26,7 +26,7 @@ int Console::getScheduleMenu(int nSchedules){
 		if(in.size() > 1)
 			continue; // 0을 리턴하는 경우, 사용자 입력 오류. 다시 입력
 		int menu = getInt(in); // 0을 리턴하는 경우, 사용자 입력 오류임
-		if(menu >= 1 && menu <= nSchedules) // 스케쥴의 범위 체크
+		if(menu >= 1 && menu <= nSchedules) // 스케쥴의 범위 체크 3보다 작아야함
 			return menu;
 	}
 }

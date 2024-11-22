@@ -4,10 +4,12 @@
 using namespace std;
 
 #include "AirlineBook.h"
+#include "User.h"
 
 int main(){
 	string sheduleTime[] = {"07시", "12시", "17시"};
 	AirlineBook *p = new AirlineBook("한성항공", 3, sheduleTime);
+	
 	p->run();
 	
 	delete p;

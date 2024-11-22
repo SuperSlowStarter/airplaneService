@@ -4,7 +4,7 @@
 using namespace std;
 
 
-void User::setSeatNumeber(int inputNumber) {
+void User::setSeatNumber(int inputNumber) {
 	this->seatNumber = inputNumber;
 }
 void User::setReserveTime(int inputTime) {

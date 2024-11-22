@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 #include "AirlineBook.h"
 #include "Schedule.h"
 #include "Console.h"
+#include "User.h"
 
+std::vector<User> users; //user클래스들을 저장하는 벡터
 // 생성자
 AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]){
 	this->name = name; // 예약 시스템 이름
@@ -55,18 +58,25 @@ void AirlineBook::book(){
 	int s;
 	string bookName;
 	int seatNo;
-
-	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 스케쥴을 입력 받는다.
-	view(s); // 스케쥴 s의 예약 상황을 출력한다.
+	User newUser;
+	view();
+	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 시간을 입력 받는다. nSchedule = 3
+	//view(s); // 스케쥴 s의 예약 상황을 출력한다. 대건 - 최초 예약이면 현재 남아있는 모든 스케줄표 보여주는게 낫지 않아?
 	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
 	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
 
+	newUser.setName(bookName);
+	newUser.setSeatNumber(seatNo);
+	newUser.setReserveTime(s);
+
 	 // 해당 스케쥴 예약
-	bool ret = sche[s-1].book(seatNo, bookName);
+	bool ret = sche[s-1].book(newUser.getSeatNumber(), newUser.getUserName()); //AirlineBook클래스의 sche가 메인 스케쥴 리스트
 	if(!ret)
 		Console::print("좌석 번호가 잘못되었거나 예약된 좌석입니다.\n");
-	else
+	else {
 		Console::print("예약되었습니다.\n");
+		users.push_back(newUser);
+	}
 }
 
 // 스케쥴을 취소한다.
