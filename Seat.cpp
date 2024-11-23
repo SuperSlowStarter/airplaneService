@@ -4,31 +4,35 @@ using namespace std;
 #include "Seat.h"
 
 Seat::Seat(){
-	name = "";
+	user.setName("");
 }
 
 // 예약
-bool Seat::book(string name){
+bool Seat::book(const User& newUser){
 	if(isBooked()) // 예약된 좌석이라면 오류
 		return false;
 	else {
-		this->name = name;
+		this->user = newUser;
 		return true;
 	}
 }
 
 // 예약 확인
 bool Seat::isBooked(){
-	if(name.size()==0)
+	/*if(name.size()==0)
 		return false;
 	else
-		return true;
+		return true;*/
+
+	return !user.getUserName().empty(); //user 클래스 기반으로
 }
 
 // 예약 취소
-bool Seat::cancel(string name){
-	if(this->name == name) { // 취소하는 이름이 동일하면
-		this->name = ""; // 이름 삭제
+bool Seat::cancel(const string& name){
+	if(user.getUserName() == name) { // 취소하는 이름이 동일하면
+		user.setName(""); // 이름 삭제
+		user.setReserveTime(NULL);
+		user.setSeatNumber(NULL);
 		return true; // 취소 성공
 	}
 	else
@@ -38,7 +42,7 @@ bool Seat::cancel(string name){
 // 예약자 이름 출력
 void Seat::view(){
 	if(isBooked())
-		cout << name << "\t";
+		cout << user.getUserName() << "\t";
 	else
 		cout << "--" << "\t";
 }
