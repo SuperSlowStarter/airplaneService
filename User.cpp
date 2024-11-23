@@ -14,12 +14,12 @@ void User::setName(string inputName) {
 	this->name = inputName;
 }
 
-string User::getUserName() {
+string User::getUserName() const {
 	return this->name;
 }
-int User::getSeatNumber() {
+int User::getSeatNumber() const {
 	return this->seatNumber;
 }
-int User::getReserveTime() {
+int User::getReserveTime() const {
 	return this->reserveTime;
 }

@@ -4,13 +4,16 @@
 #include <string>
 using namespace std;
 
+#include "User.h"
+
 class Seat{
-	string name;
+	//string name;
+	User user;
 public:
 	Seat();
-	bool book(string name);
+	bool book(const User& newUser);
 	bool isBooked();
-	bool cancel(string name);
+	bool cancel(const string& name);
 	void view();
 };
 

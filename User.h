@@ -13,7 +13,7 @@ public:
 	void setReserveTime(int inputTime);
 	void setName(string inputName);
 
-	string getUserName();
-	int getSeatNumber();
-	int getReserveTime();
+	string getUserName() const;
+	int getSeatNumber() const;
+	int getReserveTime() const;
 };

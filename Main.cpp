@@ -1,6 +1,5 @@
 // 이 프로젝트는 사용자의 입력 오류를 모두 걸러내도록 작성된 온전한 버전입니다 
 #include <string>
-#include <vector>
 using namespace std;
 
 #include "AirlineBook.h"

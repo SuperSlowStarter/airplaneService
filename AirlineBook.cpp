@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <vector>
 using namespace std;
 
 #include "AirlineBook.h"
@@ -8,7 +7,6 @@ using namespace std;
 #include "Console.h"
 #include "User.h"
 
-std::vector<User> users; //user클래스들을 저장하는 벡터
 // 생성자
 AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]){
 	this->name = name; // 예약 시스템 이름
@@ -53,49 +51,79 @@ void AirlineBook::run(){
 	}
 }
 
-// 스케쥴을 예약한다.
-void AirlineBook::book(){
-	int s;
-	string bookName;
-	int seatNo;
-	User newUser;
-	view();
-	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 시간을 입력 받는다. nSchedule = 3
-	//view(s); // 스케쥴 s의 예약 상황을 출력한다. 대건 - 최초 예약이면 현재 남아있는 모든 스케줄표 보여주는게 낫지 않아?
-	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
-	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
+// 스케쥴을 예약한다. 구버전 예약
+//void AirlineBook::book(){
+//	int s;
+//	string bookName;
+//	int seatNo;
+//	view();
+//	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 시간을 입력 받는다. nSchedule = 3
+//	//view(s); // 스케쥴 s의 예약 상황을 출력한다. 대건 - 최초 예약이면 현재 남아있는 모든 스케줄표 보여주는게 낫지 않아?
+//	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
+//	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
+//
+//	 // 해당 스케쥴 예약
+//	bool ret = sche[s-1].book(seatNo, bookName); //AirlineBook클래스의 sche가 메인 스케쥴 리스트
+//	if(!ret)
+//		Console::print("좌석 번호가 잘못되었거나 예약된 좌석입니다.\n");
+//	else {
+//		Console::print("예약되었습니다.\n");
+//	}
+//}
 
+void AirlineBook::book() {
+	view(); // 스케줄 보기
+	int s = Console::getScheduleMenu(nSchedules); // 스케줄 선택
+	int seatNo = Console::getSeatNo(); // 좌석 번호 입력
+	string bookName = Console::getName(); // 예약자 이름 입력
+
+	User newUser;
 	newUser.setName(bookName);
 	newUser.setSeatNumber(seatNo);
 	newUser.setReserveTime(s);
 
-	 // 해당 스케쥴 예약
-	bool ret = sche[s-1].book(newUser.getSeatNumber(), newUser.getUserName()); //AirlineBook클래스의 sche가 메인 스케쥴 리스트
-	if(!ret)
-		Console::print("좌석 번호가 잘못되었거나 예약된 좌석입니다.\n");
-	else {
+	if (sche[s - 1].book(newUser)) { // 예약 요청
 		Console::print("예약되었습니다.\n");
-		users.push_back(newUser);
+	}
+	else {
+		Console::print("예약 실패: 이미 예약된 좌석이거나 잘못된 입력입니다.\n");
 	}
 }
 
-// 스케쥴을 취소한다.
-void AirlineBook::cancel(){
-	int s;
-	string bookName;
-	int seatNo;
 
-	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 스케쥴을 입력 받는다.
-	view(s); // 스케쥴 s의 예약 상황을 출력한다.
-	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
-	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
+// 스케쥴을 취소한다. 구버전 취소
+//void AirlineBook::cancel(){
+//	int s;
+//	string bookName;
+//	int seatNo;
+//
+//	s = Console::getScheduleMenu(nSchedules); // 사용자가 선택한 스케쥴을 입력 받는다.
+//	view(s); // 스케쥴 s의 예약 상황을 출력한다.
+//	seatNo = Console::getSeatNo(); // 좌석 번호를 입력받는다.
+//	bookName = Console::getName(); // 예약자의 이름을 입력받는다.
+//
+//	// 해당 스케쥴 취소
+//	bool ret = sche[s-1].cancel(seatNo, bookName); 
+//
+//	if(!ret)
+//		Console::print("좌석 번호나 예약자의 이름이 틀려 취소가 실패하였습니다.\n");
+//	else {
+//		Console::print("예약이 취소되었습니다.\n");
+//	}
+//}
 
-	// 해당 스케쥴 취소
-	bool ret = sche[s-1].cancel(seatNo, bookName); 
-	if(!ret)
-		Console::print("좌석 번호나 예약자의 이름이 틀려 취소가 실패하였습니다.\n");
-	else
+void AirlineBook::cancel() {
+	int s = Console::getScheduleMenu(nSchedules); // 스케줄 선택
+	view(s); // 스케줄 보기
+	int seatNo = Console::getSeatNo(); // 좌석 번호 입력
+	string bookName = Console::getName(); // 예약자 이름 입력
+
+	if (sche[s - 1].cancel(seatNo, bookName)) { // 취소 요청
 		Console::print("예약이 취소되었습니다.\n");
+	}
+	else {
+		Console::print("취소 실패: 잘못된 이름 또는 좌석 번호입니다.\n");
+	}
 }
 
 // 현재 모든 스케쥴의 예약 상황을 출력한다.
@@ -111,6 +139,6 @@ void AirlineBook::view(int s){
 }
 
 void AirlineBook::modify() {
-	cout << "can i merge";
-	cout << "hi im from desktop";
+	
 };
+

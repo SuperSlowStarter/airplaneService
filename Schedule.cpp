@@ -1,7 +1,5 @@
 #include <iostream>
 using namespace std;
-
-#include "Seat.h"
 #include "Schedule.h"
 
 Schedule::Schedule(){
@@ -25,18 +23,23 @@ void Schedule::view(){
 	cout << endl;
 }
 
-bool Schedule::book(int no, string name){
-	if(no >= 1 && no <= 8) { // 좌석 범위 확인
-		return seat[no-1].book(name);
-	}
-	else
-		return false;
+bool Schedule::book(const User& user){
+	int no = user.getSeatNumber();
+	if (no >= 1 && no <= 8)
+		return seat[no - 1].book(user); // 좌석 예약 시도
+	return false;
 }
 
-bool Schedule::cancel(int no, string name){
-	if(no >= 1 && no <= 8) { // 좌석 범위 확인
-		return seat[no-1].cancel(name);
-	}
-	else
-		return false;
+//bool Schedule::cancel(int no, string name){
+//	if(no >= 1 && no <= 8) { // 좌석 범위 확인
+//		return seat[no-1].cancel(name);
+//	}
+//	else
+//		return false;
+//}
+
+bool Schedule::cancel(int no, const string& name) {
+	if (no >= 1 && no <= 8) // 좌석 범위 확인
+		return seat[no - 1].cancel(name); // 좌석 취소 시도
+	return false;
 }

@@ -16,6 +16,7 @@ class AirlineBook{
 	void view();
 	void view(int s);
 	void modify();
+	int find(const string& name);
 
 public:
 	AirlineBook(string name, int nSchedules, string scheduleTime []);
