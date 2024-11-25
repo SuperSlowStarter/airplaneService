@@ -2,15 +2,15 @@
 #define SCHEDULE_H
 
 #include <string>
+#include <vector>
 #include "Seat.h"
 using namespace std;
 
 class Schedule{
 	string time; // 스케쥴 타임
-	Seat* seat;
+	vector<Seat> seat;
 public:
 	Schedule();
-	~Schedule();
 	bool book(const User& user);
 	bool cancel(int no, const string& name);
 	void view();

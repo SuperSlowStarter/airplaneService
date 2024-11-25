@@ -18,7 +18,7 @@ int Console::getMainMenu(int nMenus){
 	}
 }
 
-int Console::getScheduleMenu(int nSchedules){
+int Console::getScheduleMenu(size_t nSchedules){
 	while(true) {
 		cout << "07½Ã:1, 12½Ã:2, 17½Ã:3>> " ;
 		string in;

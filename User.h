@@ -6,8 +6,8 @@ using namespace std;
 
 class User {
 	string name;
-	int seatNumber;
-	int reserveTime;
+	int seatNumber = 0;
+	int reserveTime = 0;
 public:
 	void setSeatNumber(int inputNumber);
 	void setReserveTime(int inputTime);

@@ -40,7 +40,7 @@ bool Seat::cancel(const string& name){
 }
 
 // 예약자 이름 출력
-void Seat::view(){
+void Seat::view() {
 	if(isBooked())
 		cout << user.getUserName() << "\t";
 	else

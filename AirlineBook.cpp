@@ -7,22 +7,18 @@ using namespace std;
 #include "Console.h"
 #include "User.h"
 
-// 생성자
-AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]){
-	this->name = name; // 예약 시스템 이름
-	this->nSchedules = nSchedules;
-	sche = new Schedule[nSchedules]; // 3 개의 스케쥴 객체 생성
-
-	// 각 스케쥴에 해당 시간 설정
-	for(int i=0; i<nSchedules; i++)
+AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]) : name(name) { //생성자 초기화 리스트
+	sche.resize(nSchedules); // 벡터 크기 설정
+	for (int i = 0; i < nSchedules; i++) {
 		sche[i].setTime(scheduleTime[i]);
+	}
 }
 
-// 소멸자
-AirlineBook::~AirlineBook(){
-	if(sche) 
-		delete [] sche;
-}
+// 소멸자 벡터 사용으로 인해 delete 필요 없음
+//AirlineBook::~AirlineBook(){
+//	if(sche) 
+//		delete [] sche;
+//}
 
 // 예약 시스템을 시작하는 함수
 void AirlineBook::run(){
@@ -73,7 +69,7 @@ void AirlineBook::run(){
 
 void AirlineBook::book() {
 	view(); // 스케줄 보기
-	int s = Console::getScheduleMenu(nSchedules); // 스케줄 선택
+	int s = Console::getScheduleMenu(sche.size()); // 스케줄 선택
 	int seatNo = Console::getSeatNo(); // 좌석 번호 입력
 	string bookName = Console::getName(); // 예약자 이름 입력
 
@@ -113,7 +109,7 @@ void AirlineBook::book() {
 //}
 
 void AirlineBook::cancel() {
-	int s = Console::getScheduleMenu(nSchedules); // 스케줄 선택
+	int s = Console::getScheduleMenu(sche.size()); // 스케줄 선택
 	view(s); // 스케줄 보기
 	int seatNo = Console::getSeatNo(); // 좌석 번호 입력
 	string bookName = Console::getName(); // 예약자 이름 입력

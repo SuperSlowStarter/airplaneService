@@ -2,14 +2,8 @@
 using namespace std;
 #include "Schedule.h"
 
-Schedule::Schedule(){
-	seat = new Seat[8]; // 8개의 좌석
-	time = ""; // 초기화
-}
-
-Schedule::~Schedule(){
-	if(seat)
-		delete [] seat;
+Schedule::Schedule() : seat(8) {
+	time = "";
 }
 
 void Schedule::setTime(string time) { // 스케쥴 시간 설정
@@ -18,8 +12,9 @@ void Schedule::setTime(string time) { // 스케쥴 시간 설정
 
 void Schedule::view(){
 	cout << time << ":\t";
-	for(int i=0; i<8; i++)
-		seat[i].view();
+	for (auto& s : seat) {
+		s.view();
+	}
 	cout << endl;
 }
 

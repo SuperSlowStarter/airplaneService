@@ -1,15 +1,15 @@
 #ifndef AIRLINEBOOK_H
 #define AIRLINEBOOK_H
 
+#include <vector>
 #include <string>
 using namespace std;
 
-class Schedule;
+#include "Schedule.h"
 
 class AirlineBook{
 	string name;
-	int nSchedules; // 스케쥴 개수
-	Schedule *sche; // 스케쥴 배열
+	vector<Schedule> sche;
 
 	void book();
 	void cancel();
@@ -20,7 +20,6 @@ class AirlineBook{
 
 public:
 	AirlineBook(string name, int nSchedules, string scheduleTime []);
-	~AirlineBook();
 	void run();
 };
 
