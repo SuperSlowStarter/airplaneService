@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 #include "AirlineBook.h"
@@ -23,8 +24,7 @@ AirlineBook::AirlineBook(string name, int nSchedules, string scheduleTime[]) : n
 // 예약 시스템을 시작하는 함수
 void AirlineBook::run(){
 	cout << "***** " << name << "에 오신것을 환영합니다" << " *****" << endl;
-	cout << endl;
-
+    cout << endl;
 	while(true){
 		int menu = Console::getMainMenu(5); // 메인 메뉴 입력. 4는 메뉴 개수
 		switch(menu){
@@ -126,6 +126,7 @@ void AirlineBook::cancel() {
 
 // 현재 모든 스케쥴의 예약 상황을 출력한다.
 void AirlineBook::view(){
+    system("cls");
 	for(int i=0;i<3;i++){
 		sche[i].view();
 	}
@@ -148,17 +149,29 @@ int AirlineBook::find(const string& name) {
 }
 
 void AirlineBook::modify() {
+    Console::print("\n============================\n");
+    Console::print("   예약 정보 수정\n");
+    Console::print("============================\n");
+
     string name = Console::getName();
     int location = find(name);
     if (location == -1) {
-        Console::print("해당 이름의 예약자를 찾을 수 없습니다.\n");
+        Console::print("\n[오류] 해당 이름의 예약자를 찾을 수 없습니다.\n");
         return;
     }
 
     int scheduleIndex = location / 10; // 시간대
     int seatNo = location % 10;       // 좌석 번호
 
-    Console::print("어떻게 수정하시겠습니까?\n1. 이름을 수정\n2. 좌석을 수정\n3. 시간대를 수정\n4. 시간대와 좌석을 수정\n>> ");
+    Console::print("\n============================\n");
+    Console::print("어떻게 수정하시겠습니까?\n");
+    Console::print("============================\n");
+    Console::print("1. 이름을 수정\n");
+    Console::print("2. 좌석을 수정\n");
+    Console::print("3. 시간대를 수정\n");
+    Console::print("4. 시간대와 좌석을 수정\n");
+    Console::print("============================\n");
+    Console::print(">> ");
     int choice;
     cin >> choice;
 
@@ -176,7 +189,7 @@ void AirlineBook::modify() {
             Console::print("좌석이 수정되었습니다.\n");
         }
         else {
-            Console::print("해당 좌석은 이미 예약되어 있습니다.\n");
+            Console::print("\n[오류] 해당 좌석은 이미 예약되어 있습니다.\n");
         }
         break;
     }
@@ -192,11 +205,11 @@ void AirlineBook::modify() {
                 Console::print("시간대가 성공적으로 수정되었습니다.\n");
             }
             else {
-                Console::print("해당 시간대의 동일 좌석이 이미 예약되어 있습니다.\n");
+                Console::print("\n[오류] 해당 시간대의 좌석이 이미 예약되어 있습니다.\n");
             }
         }
         else {
-            Console::print("현재 시간대와 동일한 시간대를 선택할 수 없습니다.\n");
+            Console::print("\n[오류] 현재 시간대와 동일한 시간대를 선택할 수 없습니다.\n");
         }
         break;
     }
@@ -208,11 +221,11 @@ void AirlineBook::modify() {
             Console::print("시간대와 좌석이 수정되었습니다.\n");
         }
         else {
-            Console::print("해당 시간대 또는 좌석이 이미 예약되어 있습니다.\n");
+            Console::print("\n[오류] 해당 시간대 또는 좌석이 이미 예약되어 있습니다.\n");
         }
         break;
     }
     default:
-        Console::print("잘못된 입력입니다.\n");
+        Console::print("\n[오류] 잘못된 입력입니다.\n");
     }
 }

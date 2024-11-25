@@ -1,13 +1,24 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 using namespace std;
 
 #include "Console.h"
 
 int Console::getMainMenu(int nMenus){
 	while(true) {
-		cout << "예약:1, 취소:2, 보기:3, 수정하기:4, 끝내기:5>> " ;
+		
+		Console::print("============================\n");
+		Console::print("   메인 메뉴\n");
+		Console::print("============================\n");
+		Console::print("1. 예약\n");
+		Console::print("2. 취소\n");
+		Console::print("3. 예약 보기\n");
+		Console::print("4. 예약 수정하기\n");
+		Console::print("5. 종료\n");
+		Console::print("============================");
+		Console::print(">> ");
 		string in;
 		cin >> in;
 		if(in.size() > 1)
@@ -20,7 +31,15 @@ int Console::getMainMenu(int nMenus){
 
 int Console::getScheduleMenu(size_t nSchedules){
 	while(true) {
-		cout << "07시:1, 12시:2, 17시:3>> " ;
+		system("cls");
+		Console::print("============================\n");
+		Console::print("   시간대 선택\n");
+		Console::print("============================\n");
+		Console::print("1. 07시\n");
+		Console::print("2. 12시\n");
+		Console::print("3. 17시\n");
+		Console::print("============================\n");
+		Console::print(">> ");
 		string in;
 		cin >> in;
 		if(in.size() > 1)
@@ -32,7 +51,11 @@ int Console::getScheduleMenu(size_t nSchedules){
 }
 
 string Console::getName(){
-	cout << "이름 입력>> ";
+	system("cls");
+	Console::print("============================\n");
+	Console::print("   이름 입력\n");
+	Console::print("============================\n");
+	Console::print(">> ");
 	string name;
 	cin >> name;
 	return name;
@@ -40,7 +63,11 @@ string Console::getName(){
 
 int Console::getSeatNo(){
 	while(true) {
-		cout << "좌석 번호>> " ;
+		system("cls");
+		Console::print("============================\n");
+		Console::print("   좌석 번호 입력\n");
+		Console::print("============================\n");
+		Console::print(">> ");
 		string in;
 		cin >> in;
 		int n = getInt(in); // 0을 리턴하는 경우, 사용자 입력 오류임
