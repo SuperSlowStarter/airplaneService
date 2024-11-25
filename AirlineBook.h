@@ -15,12 +15,12 @@ class AirlineBook{
 	void cancel();
 	void view();
 	void view(int s);
-	void modify();
-	int find(const string& name);
+	int find(const string& name); // 예약자 이름으로 좌석 위치 찾기
 
 public:
 	AirlineBook(string name, int nSchedules, string scheduleTime []);
 	void run();
+	void modify(); // 예약 수정 기능
 };
 
 #endif

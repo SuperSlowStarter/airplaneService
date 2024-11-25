@@ -7,11 +7,11 @@ using namespace std;
 
 int Console::getMainMenu(int nMenus){
 	while(true) {
-		cout << "예약:1, 취소:2, 보기:3, 끝내기:4>> " ;
+		cout << "예약:1, 취소:2, 보기:3, 수정하기:4, 끝내기:5>> " ;
 		string in;
 		cin >> in;
 		if(in.size() > 1)
-			continue; // 0을 리턴하는 경우, 사용자 입력 오류. 다시 입력
+			continue; 
 		int menu = getInt(in); // 0을 리턴하는 경우, 사용자 입력 오류임
 		if(menu >= 1 && menu <= nMenus) // 메뉴 범위 체크
 			return menu;

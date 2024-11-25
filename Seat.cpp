@@ -18,7 +18,7 @@ bool Seat::book(const User& newUser){
 }
 
 // 예약 확인
-bool Seat::isBooked(){
+bool Seat::isBooked() const {
 	/*if(name.size()==0)
 		return false;
 	else
@@ -45,4 +45,16 @@ void Seat::view() {
 		cout << user.getUserName() << "\t";
 	else
 		cout << "--" << "\t";
+}
+
+string Seat::getUserName() const {
+	return user.getUserName();
+}
+
+User Seat::getUser() const {
+	return user;
+}
+
+void Seat::setUserName(const string& newName) {
+	user.setName(newName);
 }
