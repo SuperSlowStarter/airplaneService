@@ -181,13 +181,22 @@ void AirlineBook::modify() {
         break;
     }
     case 3: {
+        // 이동할 시간대를 선택
         int newScheduleIndex = Console::getScheduleMenu(sche.size()) - 1;
-        if (sche[newScheduleIndex].isSeatAvailable(seatNo)) {
-            sche[newScheduleIndex].moveUserFrom(sche[scheduleIndex], seatNo);
-            Console::print("시간대가 수정되었습니다.\n");
+
+        // 동일 좌석 번호를 유지한 채로 시간대 변경
+        if (newScheduleIndex != scheduleIndex) { // 동일 시간대로 이동하지 않도록 확인
+            if (sche[newScheduleIndex].isSeatAvailable(seatNo)) { // 새 시간대의 동일 좌석이 비어 있는지 확인
+                // 새 시간대로 사용자 이동
+                sche[newScheduleIndex].moveUserFrom(sche[scheduleIndex], seatNo, seatNo);
+                Console::print("시간대가 성공적으로 수정되었습니다.\n");
+            }
+            else {
+                Console::print("해당 시간대의 동일 좌석이 이미 예약되어 있습니다.\n");
+            }
         }
         else {
-            Console::print("해당 시간대의 좌석이 이미 예약되어 있습니다.\n");
+            Console::print("현재 시간대와 동일한 시간대를 선택할 수 없습니다.\n");
         }
         break;
     }
