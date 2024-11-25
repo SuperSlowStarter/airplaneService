@@ -38,6 +38,9 @@ void AirlineBook::run(){
 				view(); // 예약 보기
 				break; 
 			case 4:
+				modify();
+				return;
+			case 5:
 				cout << "예약 시스템을 종료합니다.\n"<<endl;
 				return;
 			default:
@@ -138,3 +141,100 @@ void AirlineBook::modify() {
 	
 };
 
+int AirlineBook::find(const string& name) {
+	for (size_t i = 0; i < sche.size(); ++i) {
+		for (int j = 0; j < 8; ++j) { // 좌석은 8개로 고정
+			if (sche[i].seat[j].getUserName() == name) {
+				return i * 8 + j; // 시간대 인덱스와 좌석 인덱스를 결합하여 반환
+			}
+		}
+	}
+	return -1; // 사용자를 찾을 수 없는 경우
+}
+
+void AirlineBook::modify() {
+    cout << "누구를 수정하시겠습니까??" << endl;
+    string name;
+    cin >> name;
+
+    int position = find(name);
+    if (position == -1) {
+        cout << "해당 이름을 가진 사용자를 찾을 수 없습니다." << endl;
+        return;
+    }
+
+    int scheduleIndex = position / 8; // 시간대 인덱스
+    int seatIndex = position % 8;    // 좌석 인덱스
+
+    cout << "어떻게 수정하시겠습니까?" << endl;
+    cout << "1. 이름을 수정" << endl;
+    cout << "2. 좌석을 수정" << endl;
+    cout << "3. 시간대를 수정" << endl;
+    cout << "4. 시간대와 좌석을 수정" << endl;
+
+    int choice;
+    cin >> choice;
+
+    switch (choice) {
+    case 1: {
+        cout << "새로운 이름을 입력하세요: ";
+        string newName;
+        cin >> newName;
+        sche[scheduleIndex].seat[seatIndex].setUserName(newName);
+        cout << "이름이 성공적으로 수정되었습니다." << endl;
+        break;
+    }
+    case 2: {
+        cout << "새로운 좌석 번호를 입력하세요 (1~8): ";
+        int newSeat;
+        cin >> newSeat;
+
+        if (newSeat < 1 || newSeat > 8 || sche[scheduleIndex].seat[newSeat - 1].isBooked()) {
+            cout << "해당 좌석은 사용 중이거나 잘못된 입력입니다." << endl;
+        }
+        else {
+            sche[scheduleIndex].seat[newSeat - 1] = sche[scheduleIndex].seat[seatIndex];
+            sche[scheduleIndex].seat[seatIndex].cancel(name);
+            cout << "좌석이 성공적으로 변경되었습니다." << endl;
+        }
+        break;
+    }
+    case 3: {
+        cout << "새로운 시간대(1~3)를 선택하세요: ";
+        int newTime;
+        cin >> newTime;
+
+        if (newTime < 1 || newTime > sche.size() || sche[newTime - 1].seat[seatIndex].isBooked()) {
+            cout << "해당 시간대는 예약이 불가능하거나 잘못된 입력입니다." << endl;
+        }
+        else {
+            sche[newTime - 1].seat[seatIndex] = sche[scheduleIndex].seat[seatIndex];
+            sche[scheduleIndex].seat[seatIndex].cancel(name);
+            cout << "시간대가 성공적으로 변경되었습니다." << endl;
+        }
+        break;
+    }
+    case 4: {
+        cout << "새로운 시간대(1~3)를 선택하세요: ";
+        int newTime;
+        cin >> newTime;
+
+        cout << "새로운 좌석 번호를 입력하세요 (1~8): ";
+        int newSeat;
+        cin >> newSeat;
+
+        if (newTime < 1 || newTime > sche.size() || newSeat < 1 || newSeat > 8 ||
+            sche[newTime - 1].seat[newSeat - 1].isBooked()) {
+            cout << "해당 시간대나 좌석은 예약이 불가능하거나 잘못된 입력입니다." << endl;
+        }
+        else {
+            sche[newTime - 1].seat[newSeat - 1] = sche[scheduleIndex].seat[seatIndex];
+            sche[scheduleIndex].seat[seatIndex].cancel(name);
+            cout << "시간대와 좌석이 성공적으로 변경되었습니다." << endl;
+        }
+        break;
+    }
+    default:
+        cout << "잘못된 선택입니다." << endl;
+    }
+}
