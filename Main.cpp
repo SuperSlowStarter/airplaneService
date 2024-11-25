@@ -14,4 +14,3 @@ int main(){
 	delete p;
 }
 
-// editted from labtop 2
